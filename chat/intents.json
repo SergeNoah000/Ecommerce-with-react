@@ -1,0 +1,180 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "Hi",
+        "Hey",
+        "How are you",
+        "Is anyone there?",
+        "Hello",
+        "Good day"
+      ],
+      "responses": [
+        "Hey :-)",
+        "Hello, thanks for visiting",
+        "Hi there, what can I do for you?",
+        "Hi there, how can I help?"
+      ]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": ["Bye", "See you later", "Goodbye"],
+      "responses": [
+        "See you later, thanks for visiting",
+        "Have a nice day",
+        "Bye! Come back again soon."
+      ]
+    },
+    {
+      "tag": "thanks",
+      "patterns": ["Thanks", "Thank you", "That's helpful", "Thank's a lot!"],
+      "responses": ["Happy to help!", "Any time!", "My pleasure"]
+    },
+    {
+      "tag": "items",
+      "patterns": [
+        "Which items do you have?",
+        "What kinds of items are there?",
+        "What do you sell?"
+      ],
+      "responses": [
+        "We sell coffee and tea",
+        "We have coffee and tea"
+      ]
+    },
+    {
+      "tag": "payments",
+      "patterns": [
+        "Do you take credit cards?",
+        "Do you accept Mastercard?",
+        "Can I pay with Paypal?",
+        "Are you cash only?"
+      ],
+      "responses": [
+        "We accept VISA, Mastercard and Paypal",
+        "We accept most major credit cards, and Paypal"
+      ]
+    },
+    {
+      "tag": "salutation",
+      "patterns": [
+        "Bonjour",
+        "Salut",
+        "Comment allez-vous",
+        "Est-ce que quelqu'un est là?",
+        "Bonjour",
+        "Bonne journée"
+      ],
+      "responses": [
+        "Bonjour! Comment puis-je vous aider?",
+        "Bonjour! Je suis là pour répondre à vos questions",
+        "Bonjour, que puis-je faire pour vous?",
+        "Bonjour, comment puis-je vous aider?"
+      ]
+    },
+    {
+      "tag": "au-revoir",
+      "patterns": ["Au revoir", "À bientôt", "Bonne journée"],
+      "responses": [
+        "À bientôt, merci de votre visite",
+        "Bonne journée!",
+        "Au revoir! Revenez bientôt."
+      ]
+    },
+    {
+      "tag": "remerciements",
+      "patterns": ["Merci", "Je vous remercie", "C'est utile", "Merci beaucoup!"],
+      "responses": ["Je suis heureux d'avoir pu vous aider!", "De rien!", "C'est un plaisir de vous aider"]
+    },
+    {
+      "tag": "produits",
+      "patterns": [
+        "Quels produits vendez-vous?",
+        "Quels types de produits avez-vous?",
+        "Que vendez-vous?"
+      ],
+      "responses": [
+        "Nous vendons des fruits et légumes frais, des produits laitiers et des produits de boulangerie.",
+        "Nous avons une grande sélection de produits agricoles, y compris des fruits, des légumes et des produits laitiers."
+      ]
+    },
+    {
+      "tag": "paiement",
+      "patterns": [
+        "Acceptez-vous les cartes de crédit?",
+        "Acceptez-vous Mastercard?",
+        "Puis-je payer avec Paypal?",
+        "Acceptez-vous seulement les paiements en espèces?"
+      ],
+      "responses": [
+        "Nous acceptons les cartes VISA, Mastercard et Paypal",
+        "Nous acceptons la plupart des principales cartes de crédit, ainsi que Paypal"
+      ]
+    },
+    {
+      "tag": "delivery",
+      "patterns": [
+        "How long does delivery take?",
+        "How long does shipping take?",
+        "When do I get my delivery?"
+      ],
+      "responses": [
+        "Delivery takes 2-4 days",
+        "Shipping takes 2-4 days"
+      ]
+    },
+    {
+      "tag": "livraison",
+      "patterns": [
+        "Combien de temps prend la livraison?",
+        "Combien de temps prend l'expédition?",
+        "Quand vais-je recevoir ma livraison?"
+      ],
+      "responses": [
+        "La livraison prend généralement de 2 à 4 jours ouvrables.",
+        "L'expédition prend généralement de 2 à 4 jours ouvrables."
+      ]
+    },
+    {
+      "tag": "availability",
+      "patterns": [
+        "Avez-vous des pommes disponibles?",
+        "Avez-vous des tomates en stock?",
+        "Est-ce que vous avez des fraises?",
+        "Quels produits sont disponibles?"
+      ],
+      "responses": [
+        "Nous avons actuellement des pommes, des tomates et des fraises disponibles.",
+        "Oui, nous avons des pommes, des tomates et des fraises en stock.",
+        "Nous avons une grande sélection de produits frais disponibles. Quel produit cherchez-vous?"
+      ]
+    },
+    {
+      "tag": "organic",
+      "patterns": [
+        "Vendez-vous des produits bio?",
+        "Vendez-vous des produits biologiques?",
+        "Est-ce que vos produits sont bio?"
+      ],
+      "responses": [
+        "Oui, nous avons une sélection de produits bio.",
+        "Nous vendons des produits biologiques certifiés.",
+        "Nous avons des produits bio disponibles. Souhaitez-vous en savoir plus sur nos certifications?"
+      ]
+    },
+    {
+      "tag": "recipes",
+      "patterns": [
+        "Avez-vous des recettes à partager?",
+        "Pouvez-vous me donner une recette?",
+        "Pouvez-vous me donner une idée de repas?"
+      ],
+      "responses": [
+        "Nous avons plusieurs recettes sur notre site web. Quel type de plat cherchez-vous?",
+        "Absolument! Nous avons des recettes pour tous les goûts. Que recherchez-vous?",
+        "Bien sûr, nous avons des idées de repas sains et délicieux. Que cherchez-vous en particulier?"
+      ]
+    }
+  ]
+}

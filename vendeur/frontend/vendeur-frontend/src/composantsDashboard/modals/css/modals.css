@@ -1,0 +1,15 @@
+.containe{
+    background-color: white ;
+    border: white;
+    height: inherit;
+}
+.containe:hover{
+    background-color: white ;
+
+}
+.containe-1{
+    background-color: gainsboro;
+    border-radius: 100%;
+    border: gainsboro;
+    backdrop-filter: blur;
+}

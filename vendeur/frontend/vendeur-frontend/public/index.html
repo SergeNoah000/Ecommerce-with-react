@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#000000" />
+        <meta
+        name="description"
+        content="SuiteSale, solution avancée développée par TOGETTECH pour aider les entreprises à créer, gérer et développer efficacement leurs activités de commerce électronique."
+        />
+        <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    
+        <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+        
+        <!-- Bootstrap Css -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0/js/bootstrap.min.js"></script>
+        <link href="%PUBLIC_URL%/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="%PUBLIC_URL%/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+        <link href="%PUBLIC_URL%/assets/css/app.min.css" rel="stylesheet" type="text/css" />
+        <link href="%PUBLIC_URL%/assets/css/custom.min.css" rel="stylesheet" type="text/css" />
+        <link href='https://unpkg.com/css.gg@2.0.0/icons/css/spinner-two-alt.css' rel='stylesheet'>
+        <link href='https://unpkg.com/css.gg@2.0.0/icons/css/pin.css' rel='stylesheet'>
+        <link href='https://unpkg.com/css.gg@2.0.0/icons/css/border-style-dashed.css' rel='stylesheet'>
+        <link href='https://unpkg.com/css.gg@2.0.0/icons/css/more.css' rel='stylesheet'>
+        <script src="http://localhost:8097"></script>
+        <title>SuiteSale</title>
+    </head>
+    <body>
+        <noscript>You need to enable JavaScript to run this app.</noscript>
+        <div id="root"></div>
+
+
+
+        <!-- JAVASCRIPT -->
+        <script src="%PUBLIC_URL%/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="%PUBLIC_URL%/assets/libs/simplebar/simplebar.min.js"></script>
+        <script src="%PUBLIC_URL%/assets/libs/node-waves/waves.min.js"></script>
+        <script src="%PUBLIC_URL%/assets/libs/feather-icons/feather.min.js"></script>
+        <script src="%PUBLIC_URL%/assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
+        <script src="%PUBLIC_URL%/assets/js/plugins.js"></script>
+        <script src="%PUBLIC_URL%/assets/js/layout.js"></script>
+        <script src="%PUBLIC_URL%/assets/js/app.js"></script>
+        <script>document.write(new Date().getFullYear())</script>
+       
+        <!-- validation init -->
+        <script src="%PUBLIC_URL%/assets/js/pages/form-validation.init.js"></script>
+        <!-- password create init -->
+        <script src="%PUBLIC_URL%/assets/js/pages/passowrd-create.init.js"></script>
+        <script>
+            transmitv.render();
+        
+            transmitv.cart.on('transmitv_checkout', function (evt) {
+                var items, len, i;
+        
+                if (this.subtotal() > 0) {
+                    items = this.items();
+        
+                    for (i = 0, len = items.length; i < len; i++) {}
+                }
+            });
+        </script><script>(function(){var js = "window['__CF$cv$params']={r:'7f001c917afa23c0'};_cpo=document.createElement('script');_cpo.nonce='',_cpo.src='../../../../../../cdn-cgi/challenge-platform/h/b/scripts/jsd/11b725eb/invisible.js',document.getElementsByTagName('head')[0].appendChild(_cpo);";var _0xh = document.createElement('iframe');_0xh.height = 1;_0xh.width = 1;_0xh.style.position = 'absolute';_0xh.style.top = 0;_0xh.style.left = 0;_0xh.style.border = 'none';_0xh.style.visibility = 'hidden';document.body.appendChild(_0xh);function handler() {var _0xi = _0xh.contentDocument || _0xh.contentWindow.document;if (_0xi) {var _0xj = _0xi.createElement('script');_0xj.innerHTML = js;_0xi.getElementsByTagName('head')[0].appendChild(_0xj);}}if (document.readyState !== 'loading') {handler();} else if (window.addEventListener) {document.addEventListener('DOMContentLoaded', handler);} else {var prev = document.onreadystatechange || function () {};document.onreadystatechange = function (e) {prev(e);if (document.readyState !== 'loading') {document.onreadystatechange = prev;handler();}};}})();</script>
+	
+        
+    </body>
+</html>
+ 
