@@ -190,7 +190,7 @@ function MainList () {
                                             <div className="flex-shrink-0 me-3">
                                                 <div className="avatar-sm ">
                                                     <span className="avatar-title bg-warning-subtle rounded p-3">
-                                                        <img src={vendeur.profil} alt="" className="img-fluid p-1"/>
+                                                        <img src={`http://localhost:3500/${vendeur.profil}`} alt={`${vendeur.nom}`} className="avatar-sm bg-light rounded p-1"/>
                                                     </span>
                                                 </div>
                                             </div>

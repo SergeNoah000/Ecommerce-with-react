@@ -1,38 +1,42 @@
 import React,{useEffect,useState} from "react";
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
+
+
 function FormProduct(){
 const token = localStorage.getItem('token'); // Récupérer le token du localStorage
 const decodedToken = jwt_decode(token); // Décoder le token pour obtenir les informations qu'il contient
 const vendeurId = decodedToken.vendeurId; 
 
-    const [options, setOptions] = useState([]);
-    const [isForm1Submitted, setIsForm1Submitted] = useState(false);
+
+    const navigate = useNavigate();
 
     const [categories, setCategories] = useState([]);
+   async function  fetchCategories  ()  {
+        try {
+            const response = await axios.get("http://localhost:5000/categories");
+            setCategories(response.data);
+        } catch (error) {
+            console.error("Erreur lors de la récupération des catégories :", error);
+        }
+        };
 useEffect(() => {
-        const fetchCategories = async () => {
-            try {
-                const response = await axios.get("http://localhost:5000/categories");
-                setCategories(response.data);
-            } catch (error) {
-                console.error("Erreur lors de la récupération des catégories :", error);
-            }
-            };
+        
         fetchCategories();
     }, []);
 
 console.log(categories);
- let message = "";
+ var  message = "";
 const [data, setData] = useState({
     nom_produit: '',
     description_produit: '',
-    categorieId: '',
+    categorieId: 1,
     prix_produit: '',
     image_produit: null,
   });
 
-
+const [mes, setMes] = useState('')
   const [data1, setData1] = useState({
     nom_categorie: '',
     description_categorie: '',
@@ -77,8 +81,10 @@ const [data, setData] = useState({
     axios
       .post(`http://localhost:5000/vendeurs/${vendeurId}/produits`, formData)
       .then((response) => {
-         message = response.data.message;
+        setMes(response.data.message)
         console.log(response.data);
+        
+       navigate('/ListProduct');
         // Effectuer des actions supplémentaires en cas de succès de la requête
       })
       .catch((error) => {
@@ -100,15 +106,17 @@ const submitForm1 = (e) => {
         console.log(response.data.message);
 
         // Effectuer des actions supplémentaires en cas de succès de la requête
-        
-        const categoriesResponse =  axios.get('http://localhost:5000/categories');
-        const categ = categoriesResponse.data;
-        alert("test")
-        console.log(categ);
+        try {
+            const respon =  axios.get("http://localhost:5000/categories");
+        console.log(respon.data);
+            fetchCategories()
+           const  element = document.getElementById("page-header-cart-dropdown");
+            element.classList.remove("show");
+
+        } catch (error) {
+            console.error("Erreur lors de la récupération des catégories :\n" + error);
+        }
   
-        setOptions(categories);
-        setIsForm1Submitted(true);
-        
       })
       .catch((error) => {
         console.error(error);
@@ -137,6 +145,7 @@ console.log(data)
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Ecommerce</a></li>
                             <li class="breadcrumb-item active">Create Product</li>
                         </ol>
+                        <h1>{ mes }</h1>
                     </div>
 
                 </div>
@@ -280,7 +289,7 @@ console.log(data)
                         <div class="d-flex justify-content-between align-items-center pb-3">
                             
                         </div>
-
+                        <h2 class= "btn-succes">{message}</h2>
                         <div class="text-end mb-3">
                             <button type="submit" class="btn center btn-success w-sm"  onClick={submitForm1}>Create</button>
                         </div>

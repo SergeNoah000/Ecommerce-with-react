@@ -100,7 +100,7 @@ const Home_detail = () => {
 
                                 <ul class="slides">
                                     <li data-thumb="assets/images/cart1.jpg">
-                                        <div class="thumb-image"> <img src={+produit.image_produit} data-imagezoom="true"
+                                        <div class="thumb-image"> <img src={`http://localhost:3500/${produit.image_produit}`} data-imagezoom="true"
                                                 class="img-fluid" alt={produit.nom_produit}/> </div>
                                     </li>
                                 </ul>

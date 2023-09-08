@@ -7,6 +7,7 @@ const router=require('./controllers/ProductCreate')
 const unique=require('./controllers/GetProductById')
 const GetCategorie=require('./controllers/GetCategorie')
 const CategorieCreate =require('./controllers/CategorieCreate')
+const ProductByVendor =require('./controllers/GetProduitsByVendorId')
 const app = express();
 
 // Votre code Express.js ici...
@@ -19,6 +20,7 @@ app.use(getting);
 app.use(unique)
 app.use(CategorieCreate)
 app.use(GetCategorie)
+app.use(ProductByVendor)
 
 // require('./contr?ollers/findProduitByPK')(app)
 // Démarrer le serveur

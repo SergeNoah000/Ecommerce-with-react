@@ -6,7 +6,7 @@ const connection = require('./config/DataBase');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadPath = 'assets/images/';
+    const uploadPath = 'temps';
     fs.mkdirSync(uploadPath, { recursive: true }); // Crée le dossier s'il n'existe pas
     cb(null, uploadPath);
   },

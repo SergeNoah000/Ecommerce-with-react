@@ -30,10 +30,10 @@ useEffect(() => {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
       // Récupérer les produits du vendeur connecté
-      axios.get( `http://localhost:5000/products`)
+      axios.get( `http://localhost:5000/vendeurs/produitsByVendor/${vendeurId}`)
 
         .then(response => {
-          setProducts(response.data);
+          setProducts(response.data.results);
         })
         .catch(error => {
           console.error(error);
@@ -181,7 +181,7 @@ return(
                     <input class="form-check-input" type="checkbox" value="1" id="checkbox-1"/>					<label class="form-check-label" for="checkbox-1">
                     </label>				  </div></span>
                     </td><td data-column-id="product" class="gridjs-td"><span><div class="d-flex align-items-center"><div class="flex-shrink-0 me-3"><div class="avatar-sm bg-light rounded p-1"><img src={`http://localhost:3500/${product.image_produit}`} alt="" class="img-fluid d-block"/></div></div><div class="flex-grow-1"><h5 class="fs-14 mb-1"><a href="apps-ecommerce-product-details.html" class="text-body">{product.nom_produit}</a></h5>
-                    <p class="text-muted mb-0">Category : <span class="fw-medium">Alimentaire</span></p>
+                    <p class="text-muted mb-0">Category : <span class="fw-medium">{product.nom_categorie}</span></p>
                     </div></div></span></td>
                     
                     <td data-column-id="price" class="gridjs-td"><span>{product.prix_produit} XAF</span></td>

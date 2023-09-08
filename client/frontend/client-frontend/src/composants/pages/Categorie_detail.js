@@ -113,7 +113,7 @@ const Categorie_details = () => {
                                            <input className="form-control" type="search" name="q" placeholder="Search here..."
                                                required=""/>
                                            <button className="btn read-2">
-                                               <span className="fa fa-search"></span>url}
+                                               <span className="fa fa-search"></span>
                                            </button>
 
                                        </form>
@@ -199,8 +199,8 @@ const Categorie_details = () => {
                                    <div className="product-grid2 transmitv">
                                        <div className="product-image2">
                                            <Link to={`/Home_detail/${pr.id}`}>
-                                               <img className="pic-1 img-fluid" src={`http://localhost:3500/${produit.image_produit}`}/>
-                                               <img className="pic-2 img-fluid" src={`http://localhost:3500/${produit.image_produit}`}/>
+                                               <img className="pic-1 img-fluid" src={`http://localhost:3500/${pr.image_produit}`}/>
+                                               <img className="pic-2 img-fluid" src={`http://localhost:3500/${pr.image_produit}`}/>
                                            </Link>
                                            <ul className="social">
 												<li><Link to={`/Home_detail/${pr.id}`} data-tip="Quick View"><span

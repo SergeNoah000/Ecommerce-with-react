@@ -19,3 +19,4 @@ const vendeurs = [
     }
 ]
 module.exports = vendeurs
+
