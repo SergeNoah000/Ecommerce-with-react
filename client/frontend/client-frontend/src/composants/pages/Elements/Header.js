@@ -28,11 +28,14 @@ function getUserInfo(idToken) {
         const userPicture = document.createElement("img");
         userPicture.src = userPictureUrl;
         userPicture.alt = userName;
-        userPicture.classList.add("avatar-sm", "bg-light", "rounded", "p-1");
+        userPicture.classList.add("rounded-circle", "header-profile-user");
+        userPicture.style.width = "50%";
+        userPicture.style.height = "50%";
+
   
         // Créer l'élément <span> avec les classes nécessaires
         const avatarTitle = document.createElement("span");
-        avatarTitle.classList.add("avatar-title", "bg-warning-subtle", "rounded", "p-3");
+        avatarTitle.classList.add("d-flex",  "align-items-left");
   
         // Ajouter l'image à l'élément <span>
         avatarTitle.appendChild(userPicture);

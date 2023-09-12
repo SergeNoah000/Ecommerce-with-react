@@ -12,7 +12,7 @@ const Search = () => {
     const q = queryParams.get('q');
   
     // Utilise la valeur de `q` dans ton code
-   
+	const [cartItems, setCartItems] = useState([]);
 	const [produits, setProduit] = useState(null);
 	// const [articles, setArticles] = useState([]);
  
@@ -30,6 +30,45 @@ const Search = () => {
 	  fetchProduit();
 	}, [q]);
   	console.log(produits);
+	  const addToCart = (produit) => {
+		const newItem = {
+		id: produit.id_produit,
+		name: produit.nom_produit,
+		price: produit.prix_produit,
+		quantity: 1
+		};
+	
+		setCartItems([...cartItems, newItem]);
+	};
+	const increaseQuantity = (itemId) => {
+		const updatedItems = cartItems.map((cartItem) => {
+		if (cartItem.id === itemId) {
+			return { ...cartItem, quantity: cartItem.quantity + 1 };
+		}
+		return cartItem;
+		});
+	
+		setCartItems(updatedItems);
+	};
+	
+	const decreaseQuantity = (itemId) => {
+		const updatedItems = cartItems.map((cartItem) => {
+		if (cartItem.id === itemId) {
+			const newQuantity = cartItem.quantity - 1;
+			if (newQuantity < 1) {
+			return null; // Supprimer l'élément du panier si la quantité devient inférieure à 1
+			}
+			return { ...cartItem, quantity: newQuantity };
+		}
+		return cartItem;
+		});
+	
+		const filteredItems = updatedItems.filter((item) => item !== null); // Filtrer les éléments nuls
+	
+		setCartItems(filteredItems);
+	};
+  
+  console.log(cartItems)
 	if (!produits) {
 	  return <div>Chargement des détails de l'article...</div>;
 	}
@@ -42,7 +81,7 @@ const Search = () => {
 	   
 		<section className="w3l-banner-slider-main">
 			<div className="top-header-content">
-				<Header />
+				<Header cartItems={cartItems}   increaseQuantity = {increaseQuantity} decreaseQuantity = {decreaseQuantity} />
 			</div>  
     	</section>
         <section className="w3l-ecommerce-main-inn">

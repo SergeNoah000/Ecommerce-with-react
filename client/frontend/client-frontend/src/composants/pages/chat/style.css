@@ -214,3 +214,69 @@ body {
     box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
     cursor: pointer;
 }
+/* styles.css */
+
+.cart-items {
+    background-color: #274531;
+    padding: 1px;
+    border: 1px solid #060485;
+  }
+  
+  .cart-items table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .cart-items th,
+  .cart-items td {
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .cart-items th {
+    background-color: #06b829;
+  }
+    .increment {
+    background-color: #d4540f;
+  }
+  
+  .cart-items {
+    margin-left: 3px;
+  }
+  .increment {
+    margin-left: 11px;
+  }
+  
+  .cart-items .validate-button {
+    background-color: #c5811a;
+    color: rgb(254, 255, 255);
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+  #total {
+    background-color: #3a357b;
+    color: rgb(255, 253, 253);
+    padding: 10px 20px;
+    margin-top: 10px;
+   
+  }
+  
+  .cart-items .validate-button:hover {
+    background-color: #45a049;
+  }
+  
+  .cart-items p {
+    margin-top: 10px;
+  }
+  .cart-items {
+    position: absolute;
+    left: 70%;
+    transform: translateX(-50%);
+    /* Autres styles de mise en forme */
+  }
+  
+table {
+    border: "1px";
+}
