@@ -1,11 +1,23 @@
+
+const { DataTypes } = require('sequelize');
+const {sequelize} = require('../config/Database');
+
+
 const CartItem = sequelize.define("CartItem", {
-    id_prod: {
+    id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
     },
-    quantity: {
+    prixTotal: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-  });
+  },{
+    freezeTableName: true
+  }, 
+  {                                                                
+    timestamps: true,
+  }  );
+
+module.exports = CartItem;

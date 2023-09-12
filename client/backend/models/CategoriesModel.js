@@ -1,6 +1,5 @@
 const {  DataTypes,  UUIDV4 } = require("sequelize");
 const {sequelize} = require("../config/Database");
-const Produit = require("./ProduitsModel");
 // const { DataTypes } = Sequelize;
 
 const Categorie = sequelize.define('categorie', {

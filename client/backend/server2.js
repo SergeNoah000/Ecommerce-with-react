@@ -11,7 +11,7 @@ app.use(fileUpload());
 app.use(ProduitRoute);
 app.use(CategoriesRoute);
 
-
+require('../backend/clientcontroller/sign-in')(app)
 require('../backend/produitcontroller/GetProduct')(app)
 require('../backend/categoriecontroller/GetCategories')(app)
 require('../backend/produitcontroller/GetProductById') (app)

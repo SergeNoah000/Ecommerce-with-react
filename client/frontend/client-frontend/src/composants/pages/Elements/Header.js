@@ -2,9 +2,50 @@ import { useState } from "react";
 import {  useLocation } from 'react-router-dom';
 import React, { useEffect } from "react";
 import axios from 'axios';
+import '../chat/style.css';
+import {   googleLogout, GoogleLogin} from '@react-oauth/google';
 
+//https://oauth2.googleapis.com/tokeninfo?id_token=
 
-
+function getUserInfo(idToken) {
+    const url = "https://oauth2.googleapis.com/tokeninfo?id_token=" + idToken;
+  
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        const userId = data.sub;
+        const userName = data.name;
+        const userEmail = data.email;
+        const userPictureUrl = data.picture;
+  
+        // Sélectionner l'élément <div> par sa classe
+        const userAuthDiv = document.querySelector("#user-auth-li");
+        
+        // Vider le contenu de la <div> et y ajouter l'élément <span>
+        userAuthDiv.innerHTML = "";
+  
+        // Créer l'élément <img> avec les attributs nécessaires
+        const userPicture = document.createElement("img");
+        userPicture.src = userPictureUrl;
+        userPicture.alt = userName;
+        userPicture.classList.add("avatar-sm", "bg-light", "rounded", "p-1");
+  
+        // Créer l'élément <span> avec les classes nécessaires
+        const avatarTitle = document.createElement("span");
+        avatarTitle.classList.add("avatar-title", "bg-warning-subtle", "rounded", "p-3");
+  
+        // Ajouter l'image à l'élément <span>
+        avatarTitle.appendChild(userPicture);
+  
+        userAuthDiv.appendChild(avatarTitle);
+  
+        // Afficher les autres informations de l'utilisateur
+      })
+      .catch(error => {
+        console.error("Une erreur s'est produite lors de la récupération des informations de l'utilisateur:", error);
+      });
+  }
+  
 
 
 function Header({cartItems , increaseQuantity , decreaseQuantity}) {
@@ -13,11 +54,25 @@ function Header({cartItems , increaseQuantity , decreaseQuantity}) {
     const queryParams = new URLSearchParams(location.search);
     const q = queryParams.get('q');
     const [produits, setProduit] = useState([]);
+
+
+
+
+
+    const success = (response) => {
+        getUserInfo(response.credential);
+        console.log(response);
+    };
+    const errorAuth = (error) => {
+        console.log(error);
+    };
+
+
+  
+
+    
 	// const [cartItems, setCartItems] = useState();
    
-    const toggleCart = () => {
-        setCartOpen(!isCartOpen);
-      };
 
       // j'utilise useEffect pour charger les produits une fois que le composant est monté
      
@@ -54,7 +109,7 @@ function Header({cartItems , increaseQuantity , decreaseQuantity}) {
 
                     <div className="overlay-login text-left">
                         <button type="button" className="overlay-close1">
-                            <i className="fa fa-times" aria-hidden="true"></i>
+                            <i className="fa fa-times" aria-hidden="true"></i> 
                         </button>
                         <div className="wrap">
                             <h5 className="text-center mb-4">Login Now</h5>
@@ -131,48 +186,45 @@ function Header({cartItems , increaseQuantity , decreaseQuantity}) {
 
                         <ul className="top-hnt-right-content col-lg-6">
 
-                            <li className="button-log usernhy">
-                                <a className="btn-open" href="#">
-                                    <span className="fa fa-user" aria-hidden="true"></span>
-                                </a>
+                            <li className="button-log usernhy" id= "user-auth-li"> 
+                            <GoogleLogin useOneTap={true} onError={errorAuth} onSuccess={success}  />
+                                
                             </li>
                             <li className="transmitvcart galssescart2 cart cart box_1">
-                            
-                                        <button className="top_transmitv_cart" type="submit" name="submit" value="">
-                                            Cart: {cartItems.length}
-                                            <span className="fa fa-shopping-cart"></span>
-                                        </button>
-                                        {isCartOpen && (
-                                            <table>
-                                            <thead>
-                                                <th>Produit</th>
-                                                <th>Prix</th>
-                                                <th>Quantite</th>
-                                            </thead>
-                                            <tbody>
-                                            
-                                            
-                                            {cartItems.map((item) => (
-                                                <tr key={item.id}>
-                                                <td>{item.name}</td>
-                                                <td> {item.price}</td>
-                                                <td> {item.quantity}  <button className="increment " onClick={() => increaseQuantity(item.id)}>+</button> <button onClick={() => decreaseQuantity(item.id)} className="increment">-</button></td>
-                                                {/* <button onClick={() => increaseQuantity(item)}>+</button>
-                                                <button onClick={() => decreaseQuantity(item)}>-</button> */}
-                                                </tr>
-                                            ))}
-                                            
-                                            
-                                            
-                                            </tbody>
-                                            <p>Total Price:<strong> {getTotalPrice()} XAF</strong> </p>
-                                         
-                                            </table>
-                                            
-                                        )}
-                            </li>
-                            <li class="transmitvcart galssescart2 cart cart box_1">
-                           
+                            <button className="top_transmitv_cart cart-button" type="submit" onClick={() => setCartOpen(!isCartOpen)} name="submit" value="">
+                            <span className="fa fa-shopping-bag"></span>: {cartItems.length}
+                                <span className="fa fa-shopping-cart"></span>
+                            </button>
+                            <div className="cart-container">
+                            {isCartOpen && (
+                                <div className="cart-items">
+                                <table border="1px">
+                                    <thead>
+                                    <tr>
+                                        <th>Produit</th>
+                                        <th>Prix</th>
+                                        <th>Quantité</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {cartItems.map((item) => (
+                                        <tr key={item.id}>
+                                        <td>{item.name}</td>
+                                        <td>{item.price}</td>
+                                        <td>{item.quantity}</td>
+                                        <td>
+                                            <button className="increment" onClick={() => increaseQuantity(item.id)}>+</button>
+                                            <button className="increment" onClick={() => decreaseQuantity(item.id)}>-</button>
+                                        </td>
+                                        </tr>
+                                    ))}
+                                    </tbody>
+                                </table>
+                                <p id="total">Total Price: <strong>{getTotalPrice()} XAF</strong></p>
+                                <button type="submit" className="validate-button">Valider la commande</button>
+                                </div>
+                            )}
+                            </div>
                             </li>
                         </ul>
 
