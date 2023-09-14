@@ -20,6 +20,7 @@ require('./categoriecontroller/GetCategorieById')(app)
 require('../backend/produitcontroller/SearchProducts')(app)
 require('../backend/PromotionController/GetPromotionById')(app)
 require('../backend/PromotionController/GetPromotionRandomly')(app)
+require('../backend/clientcontroller/ClientCreate')(app)
 app.use (({res}) => {
     const message = 'imposible de trouver la ressource'
     res.status(404).json({message})

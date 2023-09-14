@@ -1,6 +1,7 @@
 const { Sequelize , DataTypes } = require("sequelize");
 const Product = require('../models/ProduitsModel');
-const produits = require('./mock-produit')
+const produits = require('./mock-produit');
+CartItem = require('../models/cart');
 
 const sequelize = new Sequelize("pokedex", "root", "", {
   host: "localhost",
@@ -28,18 +29,7 @@ const initDb = () => {
 
 
 
-// Définir le modèle pour la table "CartItem"
-const CartItem = sequelize.define("CartItem", {
-  id_prod: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    primaryKey: true,
-  },
-  quantity: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-});
+
 
 // Définir le modèle pour la table "Commande"
 const Commande = sequelize.define("Commande", {
@@ -60,33 +50,117 @@ const Commande = sequelize.define("Commande", {
     allowNull: false,
   },
 });
-const Client = sequelize.define('client', {
-  id_client:{
+
+
+
+const Demand = sequelize.define('Demande', {
+  id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement:true
+    
   },
-  nom_client: {
+  quantite: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+      len: [1, 100],
+    },
+  },
+
+},{
+  freezeTableName: true
+}, 
+);
+
+
+const Panier = sequelize.define("Panier", {
+  id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    primaryKey: true,
+  },
+  prixTotal: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+},{
+  freezeTableName: true
+}, 
+{                                                                
+  timestamps: true,
+}  );
+
+
+
+
+
+
+
+const Client = sequelize.define('client', {
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true
+  },
+  G_token: {
+    type: DataTypes.STRING,
+    unique: true,
+    allowNull: false
+  },
+    nom_complet: {
     type: DataTypes.STRING,
     allowNull: false
   },
   email: {
     type: DataTypes.STRING,
+    unique: true,
     allowNull: false
   },
-  statut: {
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  photoProfil: {
     type: DataTypes.STRING,
     allowNull: true
+  },
+  numeroTelephone: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  adresse: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  numeroAppartement: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW
   }
-}, {
-  timestamps: true,
-  createdAt: 'created',
-  updatedAt: false
 });
 
-// Définir la relation entre les tables "CartItem" et "Commande"
-CartItem.belongsTo(Commande);
-Commande.hasMany(CartItem);
+
+Client.hasOne(Panier)
+Panier.belongsTo(Client)
+
+
+
+Panier.hasMany(Demand);
+Demand.belongsTo(Panier);
+
+
+Demand.belongsTo(Product);
+Demand.hasOne(Product);
+
+
+
+Demand.belongsTo(Commande);
+Commande.hasMany(Panier);
 sequelize.sync();
 
 

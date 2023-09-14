@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import axios from 'axios';
 import '../chat/style.css';
 import {   googleLogout, GoogleLogin} from '@react-oauth/google';
+import Axios from 'axios';
 
 //https://oauth2.googleapis.com/tokeninfo?id_token=
 
@@ -43,9 +44,23 @@ function getUserInfo(idToken) {
         userAuthDiv.appendChild(avatarTitle);
   
         // Afficher les autres informations de l'utilisateur
+        const donnees = {
+            token:idToken,
+            image:userPictureUrl,
+            email:userEmail,
+            nom:userName,
+            id: userId
+        };
+        Axios.post("http://localhost:7200/client/create", donnees,  
+    ).then(res => {
+        console.log(res.data.message);
       })
       .catch(error => {
-        console.error("Une erreur s'est produite lors de la récupération des informations de l'utilisateur:", error);
+        console.error(error.response.data.message);
+      });
+      })
+      .catch(error => {
+        console.error("Une erreur s'est produite lors de la récupération des informations de l'utilisateur chez Google:", error);
       });
   }
   
