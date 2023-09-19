@@ -4,9 +4,11 @@ import Footer from './Elements/Footer';
 import { Link, useParams } from 'react-router-dom';
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
+import CryptoJS from 'crypto-js';
 
 
 const Home_detail = () => {
+    const ENCRYPTION_KEY = "Ngoaam-Nyee";
   const { id } = useParams();
   const [produit, setProduit] = useState(null);
   const [produitsMemeCategorie, setProduitsMemeCategorie] = useState([]);
@@ -15,6 +17,19 @@ const Home_detail = () => {
   useEffect(() => {
     const fetchProduit = async () => {
       try {
+
+        const encryptedData = localStorage.getItem('panier');
+            if (encryptedData) {
+              const decryptedData = CryptoJS.AES.decrypt(encryptedData, ENCRYPTION_KEY).toString(CryptoJS.enc.Utf8);
+              if (decryptedData) {
+                const userInfo = JSON.parse(decryptedData);
+                console.log("decryptDate:", decryptedData);
+                setCartItems(userInfo);
+                }
+            }
+
+
+
         const response = await axios.get(`http://localhost:7200/produit/${id}`);
 		console.log(response.data.data)
         setProduit(response.data.data);
@@ -34,15 +49,35 @@ const Home_detail = () => {
 
     // Reste du code du composant Home...
 	const addToCart = (produit) => {
-		const newItem = {
-		id: produit.id_produit,
-		name: produit.nom_produit,
-		price: produit.prix_produit,
-		quantity: 1
-		};
-	
-		setCartItems([...cartItems, newItem]);
-	};
+		const existingItem = cartItems.find((cartItem) => cartItem.id === produit.id);
+	  
+		if (existingItem) {
+		  const updatedItems = cartItems.map((cartItem) => {
+			if (cartItem.id === produit.id) {
+			  return { ...cartItem, quantity: cartItem.quantity + 1 };
+			}
+			return cartItem;
+		  });
+	  
+		  setCartItems(updatedItems);
+          const encryptedData = CryptoJS.AES.encrypt(JSON.stringify(updatedItems), ENCRYPTION_KEY).toString();
+      
+            localStorage.setItem('panier', encryptedData);
+		} else {
+		  const newItem = {
+			id: produit.id,
+			name: produit.nom_produit,
+			price: produit.prix_produit,
+			quantity: 1
+		  };
+		  
+          const encryptedData = CryptoJS.AES.encrypt(JSON.stringify([...cartItems, newItem]), ENCRYPTION_KEY).toString();
+      
+            localStorage.setItem('panier', encryptedData);	
+		  setCartItems([...cartItems, newItem]);
+		}
+	  };
+
 	const increaseQuantity = (itemId) => {
 		const updatedItems = cartItems.map((cartItem) => {
 		if (cartItem.id === itemId) {
@@ -52,6 +87,10 @@ const Home_detail = () => {
 		});
 	
 		setCartItems(updatedItems);
+        
+        const encryptedData = CryptoJS.AES.encrypt(JSON.stringify(updatedItems), ENCRYPTION_KEY).toString();
+      
+        localStorage.setItem('panier', encryptedData);
 	};
 	
 	const decreaseQuantity = (itemId) => {
@@ -69,13 +108,17 @@ const Home_detail = () => {
 		const filteredItems = updatedItems.filter((item) => item !== null); // Filtrer les éléments nuls
 	
 		setCartItems(filteredItems);
+        
+        const encryptedData = CryptoJS.AES.encrypt(JSON.stringify(filteredItems), ENCRYPTION_KEY).toString();
+      
+        localStorage.setItem('panier', encryptedData);
 	};
   
         console.log(cartItems)
 
 
   if (!produit) {
-    return <div>Chargement de la pag...</div>;
+    return <div>Chargement de la page...</div>;
   }
 
     return (
@@ -84,7 +127,7 @@ const Home_detail = () => {
 <section className="w3l-banner-slider-main">
       <div className="top-header-content">
         <header className="tophny-header">
-          <Header cartItems={cartItems}   increaseQuantity = {increaseQuantity} decreaseQuantity = {decreaseQuantity}/>
+          <Header cartItems={cartItems}   increaseQuantity = {increaseQuantity} decreaseQuantity = {decreaseQuantity} setCartItems = {setCartItems}/>
         </header>
       </div>  
 	  
@@ -109,17 +152,13 @@ const Home_detail = () => {
                             <div class="eco-buttons mt-5">
 
                                 <div class="transmitv single-item">
-                                    <form action="#" method="post">
-                                        <input type="hidden" name="cmd" value="_cart"/>
-                                        <input type="hidden" name="add" value="1"/>
-                                        <input type="hidden" name="transmitv_item" value="Yellow T-Shirt"/>
-                                        <input type="hidden" name="amount" value="599.99"/>
-                                        <button type="submit" class="transmitv-cart ptransmitv-cart add-to-cart read-2">
+                                   
+                                        <button type="submit" class="transmitv-cart ptransmitv-cart add-to-cart read-2"  onClick={() => addToCart(produit)}>
                                             Add to Cart
                                         </button>
-                                    </form>
+
                                 </div>
-                                <div class="buyhny-now"> <a href="#buy" class="action btn">Buy Now </a></div>
+                                <div class="buyhny-now"> <a href="#buy" class="action btn"onClick={() => addToCart(produit)} >Buy Now </a></div>
 
                             </div>
                         </div>

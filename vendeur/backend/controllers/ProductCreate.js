@@ -31,7 +31,6 @@ router.post('/vendeurs/:id/produits', upload.single('image_produit'), (req, res)
       // Déplacer le fichier vers le dossier de destination
       const destinationPath = path.join(__dirname, './../../../images/uploaded/', image_produit.filename);
       fs.renameSync(image_produit.path, destinationPath);
-      console.log("\n\nOK\n\n");
     }
 
     const vendeurId = req.params.id; // Récupérer l'ID du vendeur depuis les paramètres de la route

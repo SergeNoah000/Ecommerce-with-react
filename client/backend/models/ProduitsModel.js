@@ -3,6 +3,9 @@ const {sequelize} = require("../config/Database");
 const Vendeur = require ('./Vendeur');
 const Categorie = require ('./CategoriesModel');
 const Promotion = require ('./PromotionModel');
+const Demand = require('./DemandModel'); 
+const Panier = require('./cart');
+const Client = require("./ClientModel");
 
 // const { DataTypes } = Sequelize;
 
@@ -55,6 +58,18 @@ Categorie.hasMany(Product);
 
 Product.belongsTo(Promotion);
 Promotion.hasOne(Product);
+
+Demand.hasOne(Product);
+Demand.belongsTo(Product);
+
+Panier.hasMany(Demand);
+Demand.belongsTo(Panier);
+
+
+Client.hasMany(Panier);
+Panier.belongsTo(Client)
+
+
 
 
 module.exports = Product;

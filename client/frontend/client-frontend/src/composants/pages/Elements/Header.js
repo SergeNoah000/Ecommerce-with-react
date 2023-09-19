@@ -4,74 +4,30 @@ import React, { useEffect } from "react";
 import axios from 'axios';
 import '../chat/style.css';
 import {   googleLogout, GoogleLogin} from '@react-oauth/google';
-import Axios from 'axios';
+import CryptoJS from 'crypto-js';
 
 //https://oauth2.googleapis.com/tokeninfo?id_token=
 
-function getUserInfo(idToken) {
-    const url = "https://oauth2.googleapis.com/tokeninfo?id_token=" + idToken;
-  
-    fetch(url)
-      .then(response => response.json())
-      .then(data => {
-        const userId = data.sub;
-        const userName = data.name;
-        const userEmail = data.email;
-        const userPictureUrl = data.picture;
-  
-        // Sélectionner l'élément <div> par sa classe
-        const userAuthDiv = document.querySelector("#user-auth-li");
-        
-        // Vider le contenu de la <div> et y ajouter l'élément <span>
-        userAuthDiv.innerHTML = "";
-  
-        // Créer l'élément <img> avec les attributs nécessaires
-        const userPicture = document.createElement("img");
-        userPicture.src = userPictureUrl;
-        userPicture.alt = userName;
-        userPicture.classList.add("rounded-circle", "header-profile-user");
-        userPicture.style.width = "50%";
-        userPicture.style.height = "50%";
 
-  
-        // Créer l'élément <span> avec les classes nécessaires
-        const avatarTitle = document.createElement("span");
-        avatarTitle.classList.add("d-flex",  "align-items-left");
-  
-        // Ajouter l'image à l'élément <span>
-        avatarTitle.appendChild(userPicture);
-  
-        userAuthDiv.appendChild(avatarTitle);
-  
-        // Afficher les autres informations de l'utilisateur
-        const donnees = {
-            token:idToken,
-            image:userPictureUrl,
-            email:userEmail,
-            nom:userName,
-            id: userId
-        };
-        Axios.post("http://localhost:7200/client/create", donnees,  
-    ).then(res => {
-        console.log(res.data.message);
-      })
-      .catch(error => {
-        console.error(error.response.data.message);
-      });
-      })
-      .catch(error => {
-        console.error("Une erreur s'est produite lors de la récupération des informations de l'utilisateur chez Google:", error);
-      });
-  }
   
 
 
-function Header({cartItems , increaseQuantity , decreaseQuantity}) {
+function Header({cartItems , increaseQuantity , decreaseQuantity, setCartItems}) {
+
+    const ENCRYPTION_KEY = "Ngoaam-Nyee";
+
     const [isCartOpen, setCartOpen] = useState(false);
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const q = queryParams.get('q');
     const [produits, setProduit] = useState([]);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [userInfo, setUserInfo] = useState([]);
+    const [locationClient, setLocationClient] = useState('');
+    const [numTel, setNumTel] = useState();
+    const [IsReadyCart, setIsReadyCart] = useState(false);
+    const [btn, setBtn] = useState(true);
+    const [mes, setMes] = useState('');
 
 
 
@@ -79,20 +35,58 @@ function Header({cartItems , increaseQuantity , decreaseQuantity}) {
 
     const success = (response) => {
         getUserInfo(response.credential);
+        setIsLoggedIn(true);
         console.log(response);
     };
     const errorAuth = (error) => {
         console.log(error);
     };
 
+    const  getUserInfo = (idToken) => {
+        const url = "https://oauth2.googleapis.com/tokeninfo?id_token=" + idToken;
+      
+        fetch(url)
+          .then(response => response.json())
+          .then(data => {
+            const userId = data.sub;
+            const userName = data.name;
+            const userEmail = data.email;
+            const userPictureUrl = data.picture;
+            const userInf = {
+                userPictureUrl : userPictureUrl ,
+                userName : userName,
+                userEmail : userEmail 
+            }
 
-  
+            const encryptedData = CryptoJS.AES.encrypt(JSON.stringify(userInf), ENCRYPTION_KEY).toString();
+      
+            localStorage.setItem('userInfo', encryptedData);
+            setUserInfo(userInf);
+            const donnees = {
+                token:idToken,
+                image:userPictureUrl,
+                email:userEmail,
+                nom:userName,
+                id: userId
+            };
+            axios.post("http://localhost:7200/client/create", donnees
+        ).then(res => {
+            console.log(res.data.message);
+          })
+          .catch(error => {
+            console.error("Quelque chose n'a pas marche dans le backend :" , error.response.data);
+          });
+          })
+          .catch(error => {
+            console.error("Une erreur s'est produite lors de la récupération des informations de l'utilisateur chez Google:", error);
+          });
+      }
+    const handleLogout = () => {
+        googleLogout(); 
+        localStorage.removeItem('userInfo');
+        setIsLoggedIn(false); 
+      };
 
-    
-	// const [cartItems, setCartItems] = useState();
-   
-
-      // j'utilise useEffect pour charger les produits une fois que le composant est monté
      
       
 	  const getTotalPrice = () => {
@@ -103,9 +97,46 @@ function Header({cartItems , increaseQuantity , decreaseQuantity}) {
 		return totalPrice;
 	  };
 
+
+      const  preparerCommande = () =>
+      {
+        setIsReadyCart(true); 
+        setBtn(false);      
+      }
+
+      const validerCommande = ()=>{
+
+
+        axios
+      .post(`http://localhost:7200/client/panier`, {cartItems:cartItems,totalPrice:getTotalPrice(), email:userInfo.userEmail , deliveryAddress: locationClient, numTel:numTel, })
+      .then((response) => {
+        setMes(response.data.message)
+        console.log(response.data);
+        setCartItems([]);
+        localStorage.removeItem('panier')
+        setBtn(true);
+        setIsReadyCart(false)
+
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+      }
+
       useEffect(() => {
         const fetchProduit = async () => {
           try {
+            const encryptedData = localStorage.getItem('userInfo');
+            if (encryptedData) {
+              const decryptedData = CryptoJS.AES.decrypt(encryptedData, ENCRYPTION_KEY).toString(CryptoJS.enc.Utf8);
+              if (decryptedData) {
+                const userInfo = JSON.parse(decryptedData);
+                console.log("decryptDate:", decryptedData);
+                setUserInfo(userInfo);
+                setIsLoggedIn(true);
+                }
+            }
             const response = await axios.get(`http://localhost:7200/products/search?q=${q}`);
             setProduit(response.data.data);
     
@@ -205,7 +236,25 @@ function Header({cartItems , increaseQuantity , decreaseQuantity}) {
                         <ul className="top-hnt-right-content col-lg-6">
 
                             <li className="button-log usernhy" id= "user-auth-li"> 
-                            <GoogleLogin useOneTap={true} onError={errorAuth} onSuccess={success}  />
+                            {!isLoggedIn ? (
+                <GoogleLogin useOneTap={true} onError={errorAuth} onSuccess={success} />
+              ) : (
+                <>
+                 
+                  {/* Afficher les autres informations de l'utilisateur */}
+                  <div className="  ">
+                    <span className="d-flex align-items-left">
+                      <img src={userInfo.userPictureUrl} 
+                        title="Deconnexion"  
+                        style={{ width: "50%", height: "50%" , cursor: "pointer"}} 
+                        alt={userInfo.userName} 
+                        onClick={handleLogout} 
+                        className="rounded-circle header-profile-user" 
+                      />
+                    </span>
+                  </div>
+                </>
+              )}
                                 
                             </li>
                             <li className="transmitvcart galssescart2 cart cart box_1">
@@ -239,7 +288,25 @@ function Header({cartItems , increaseQuantity , decreaseQuantity}) {
                                     </tbody>
                                 </table>
                                 <p id="total">Total Price: <strong>{getTotalPrice()} XAF</strong></p>
-                                <button type="submit" className="validate-button">Valider la commande</button>
+                                {btn && ( <button type="submit" id="btn-validation-commande" className="validate-button" onClick={ preparerCommande}>Valider la commande</button>
+                                    )}
+                                {IsReadyCart && (
+                                <>
+                                    <div class="form-group">
+												<p class="login-texthny mb-2">Adresse de livraison</p>
+												<input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Lieu de livraison"value={locationClient} onChange={(e) => setLocationClient(e.target.value)} required=""/>
+												<small id="emailHelp" class="form-text text-muted">Exple: Yaounde Centre Etog-Ebe, Beattitude, Troisieme maison verte  au toit en tolles bags</small>
+											</div>
+                                    
+                                    <div class="form-group">
+                                        <p class="login-texthny mb-2">Numero OM / MoMo</p>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Numero OM/MoMo.." value={numTel} onChange={(e) => setNumTel(e.target.value)} required/>
+                                        <small id="emailHelp" class="form-text text-muted">653420526</small>
+                                    </div>
+                                    <button type="submit" className="validate-button btn mb-4" onClick={ validerCommande}>Commander et payer</button>
+                                </>
+
+                                )}
                                 </div>
                             )}
                             </div>

@@ -12,7 +12,7 @@ function Carousel()  {
 
     const Card = ({ prom }) => {
         const cardStyle = {
-          backgroundImage: `src={http://localhost:3500/${prom.product.image_produit})`,
+            background: `url(http://localhost:3500/${prom.product.image_produit}) no-repeat center`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           

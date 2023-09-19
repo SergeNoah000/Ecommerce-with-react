@@ -4,8 +4,10 @@ import Footer from './Elements/Footer';
 import { Link, useParams } from 'react-router-dom';
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
+import CryptoJS from 'crypto-js';
 
 const Categorie_details = () => {
+    const ENCRYPTION_KEY = "Ngoaam-Nyee";
 	const { id } = useParams();
 	const [produit, setProduit] = useState(null);
     const [cartItems, setCartItems] = useState([]);
@@ -29,6 +31,17 @@ const Categorie_details = () => {
     useEffect(() => {
 		const fetchCategories = async () => {
 		  try {
+
+            const encryptedData = localStorage.getItem('panier');
+            if (encryptedData) {
+              const decryptedData = CryptoJS.AES.decrypt(encryptedData, ENCRYPTION_KEY).toString(CryptoJS.enc.Utf8);
+              if (decryptedData) {
+                const userInfo = JSON.parse(decryptedData);
+                console.log("decryptDate:", decryptedData);
+                setCartItems(userInfo);
+                }
+            }
+
 			const response = await axios.get("http://localhost:7200/categories");
 			setCategories(response.data);
 		  } catch (error) {
@@ -39,26 +52,49 @@ const Categorie_details = () => {
 		fetchCategories();
 	  }, []);
 
-    const addToCart = (produit) => {
-        const newItem = {
-        id: produit.id_produit,
-        name: produit.nom_produit,
-        price: produit.prix_produit,
-        quantity: 1
-        };
-    
-        setCartItems([...cartItems, newItem]);
-    };
-    const increaseQuantity = (itemId) => {
-        const updatedItems = cartItems.map((cartItem) => {
-        if (cartItem.id === itemId) {
-            return { ...cartItem, quantity: cartItem.quantity + 1 };
-        }
-        return cartItem;
-        });
-    
-        setCartItems(updatedItems);
-    };
+      const addToCart = (produit) => {
+		const existingItem = cartItems.find((cartItem) => cartItem.id === produit.id);
+	  
+		if (existingItem) {
+		  const updatedItems = cartItems.map((cartItem) => {
+			if (cartItem.id === produit.id) {
+			  return { ...cartItem, quantity: cartItem.quantity + 1 };
+			}
+			return cartItem;
+		  });
+	  
+		  setCartItems(updatedItems);
+          const encryptedData = CryptoJS.AES.encrypt(JSON.stringify(updatedItems), ENCRYPTION_KEY).toString();
+      
+            localStorage.setItem('panier', encryptedData);
+		} else {
+		  const newItem = {
+			id: produit.id,
+			name: produit.nom_produit,
+			price: produit.prix_produit,
+			quantity: 1
+		  };
+		  
+          const encryptedData = CryptoJS.AES.encrypt(JSON.stringify([...cartItems, newItem]), ENCRYPTION_KEY).toString();
+      
+            localStorage.setItem('panier', encryptedData);	
+		  setCartItems([...cartItems, newItem]);
+		}
+	  };
+      const increaseQuantity = (itemId) => {
+		const updatedItems = cartItems.map((cartItem) => {
+		if (cartItem.id === itemId) {
+			return { ...cartItem, quantity: cartItem.quantity + 1 };
+		}
+		return cartItem;
+		});
+	
+		setCartItems(updatedItems);
+        
+        const encryptedData = CryptoJS.AES.encrypt(JSON.stringify(updatedItems), ENCRYPTION_KEY).toString();
+      
+        localStorage.setItem('panier', encryptedData);
+	};
     
     const decreaseQuantity = (itemId) => {
         const updatedItems = cartItems.map((cartItem) => {
@@ -75,6 +111,10 @@ const Categorie_details = () => {
         const filteredItems = updatedItems.filter((item) => item !== null); // Filtrer les éléments nuls
     
         setCartItems(filteredItems);
+        
+        const encryptedData = CryptoJS.AES.encrypt(JSON.stringify(filteredItems), ENCRYPTION_KEY).toString();
+      
+        localStorage.setItem('panier', encryptedData);
     };
   
   console.log(cartItems)
@@ -92,7 +132,7 @@ const Categorie_details = () => {
 	   
        <section className="w3l-banner-slider-main">
            <div className="top-header-content">
-               <Header cartItems={cartItems}   increaseQuantity = {increaseQuantity} decreaseQuantity = {decreaseQuantity}/>
+               <Header cartItems={cartItems}   increaseQuantity = {increaseQuantity} decreaseQuantity = {decreaseQuantity} setCartItems = {setCartItems}/>
            </div>  
        </section>
        <section className="w3l-ecommerce-main-inn">

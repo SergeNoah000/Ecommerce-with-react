@@ -12,6 +12,8 @@ app.use(ProduitRoute);
 app.use(CategoriesRoute);
 
 require('../backend/clientcontroller/sign-in')(app)
+require('../backend/clientcontroller/ClientCreate')(app)
+require('../backend/clientcontroller/UserCartCreate')(app)
 require('../backend/produitcontroller/GetProduct')(app)
 require('../backend/categoriecontroller/GetCategories')(app)
 require('../backend/produitcontroller/GetProductById') (app)
@@ -24,4 +26,4 @@ app.use (({res}) => {
     const message = 'imposible de trouver la ressource'
     res.status(404).json({message})
 } )
-app.listen(7200,()=> console.info('serveur [ CLIENT-BACKEND ]en lecture sur le port 7200'));
+app.listen(7200,()=> console.info('serveur [ CLIENT-BACKEND ] en lecture sur le port 7200'));

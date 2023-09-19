@@ -1,9 +1,26 @@
-const {  DataTypes,  UUIDV4 } = require("sequelize");
-const {sequelize} = require("../config/Database");
-const Produit = require("./ProduitsModel");
+const{ DataTypes} = require('sequelize')
+const {sequelize} = require('../config/Database')
 
 
-(async () => {
-  await sequelize.sync({alter:true})
+ const Demand = sequelize.define('Demande' , {
+        id:{
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        quantite:{
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            min:1
+        },
+    },
+    {                                                                
+        timestamps: true,
 })
+
+ 
+
+
+
+
 module.exports = Demand;
