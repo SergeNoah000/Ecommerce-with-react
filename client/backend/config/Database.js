@@ -46,28 +46,15 @@ const Commande = sequelize.define("Commande", {
     allowNull: false,
     defaultValue : "Non Livre"
   },
+  reference_payment: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+
 });
 
 
 
-
-
-const Panier = sequelize.define("Panier", {
-  id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    primaryKey: true,
-  },
-  prixTotal: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-},{
-  freezeTableName: true
-}, 
-{                                                                
-  timestamps: true,
-}  );
 
 
 

@@ -112,6 +112,7 @@ function Header({cartItems , increaseQuantity , decreaseQuantity, setCartItems})
       .then((response) => {
         setMes(response.data.message)
         console.log(response.data);
+        
         setCartItems([]);
         localStorage.removeItem('panier')
         setBtn(true);
