@@ -6,6 +6,8 @@ import AjoutProduire from './composantsDashboard/ajoutproduct/AjoutProduire';
 import ListProduct from './components/listproduct/ListProduct'
 import AffichageList from './AffichageList.js';
 import DetailsProduct from './components/detailleproduct/DetailsProduct';
+import PrincipalInterface from './mesformulaire/PrincipalInterface';
+import PromotionForm from './mesformulaire/PromotionForm';
 
 
 function App() {
@@ -21,6 +23,8 @@ function App() {
          {/* <Route path="/DetailsProduct" element={<DetailsProduct />}/>   */}
          {/* <Route path="/" element={<AffichageList/>}/> */}
       //  <Route path="/" element={<Login />} />
+       <Route exact path="/Promotions_List" element={<PrincipalInterface />} />
+          <Route exact path="/PromotionForm" element={<PromotionForm />} />
         </Routes>
       </Router>
   </div>

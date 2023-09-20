@@ -3,13 +3,32 @@
   const Client = require('../models/ClientModel');
   const Panier = require('../models/cart');
   const Demand = require('../models/DemandModel');
-const { waitForDebugger } = require("inspector");
+
+
+ async function updateCommandeReference(commandeId, reference) {
+
+      try {
+        sequelize.transaction(async (transaction) => {
+        const commande = await   Commande.findOne({ where: { id: commandeId } });
+        console.log("Commande a modifier: ", commande);
+        if (commande) {
+            commande.reference_payment = reference;
+            await commande.save({ transaction });
+            console.log("log dans update" + commande);
+            return { success: true, message: "La référence de la commande a été mise à jour avec succès." };  
+      
+        }else {
+          return { success: false, message: "La commande avec l'ID spécifié n'a pas été trouvée." };
+        }});
+      } catch (error) {
+        return { success: false, message: "Une erreur s'est produite lors de la mise à jour de la référence de la commande." + error };
+      }
+    }
 
   module.exports = (app) => {
     app.post('/client/panier', async (req, res) => {
       try {
         const { cartItems, totalPrice, email, deliveryAddress, numTel } = req.body;
-        console.log("totalPrice", totalPrice);
 
         const clt = await Client.findOne({ where: { email: email } });
         if (clt) {
@@ -21,7 +40,7 @@ const { waitForDebugger } = require("inspector");
         //const KEY1 = 'sb.tGuhjaVbEkeEw8N6tFfqFKXjXsPPbig2WvoeCbIJc2b6CDRjI7B6W6slVhnuH8Gs70mitihTLStoqpCtJM0d5lfzSAAHn3WuOlsXKYtwlRl2Jz7k0iFDXExscpkMT';
           const KEY = 'pk.06OarXTuEQQysEOELRXW5x3FuT4aJp5MWvfqND6DcuEJmXuFIWcqR4SWFORh7vGe8dzhaGXDrlMs2epYOFdeBDNG1LlyMIoJZBLT2RRMBhsuOcskIZLcTc4Jsd3EP';
            const reference = '' + panier.id +Date.now()  + Math.round(Math.random() * 1E2) ;
-           console.log(reference);    
+           console.log('Initalisation d\'un paiement');    
           // Fonction d'initialisation
           const initializePayment = () => {
             const https = require('https');
@@ -33,7 +52,6 @@ const { waitForDebugger } = require("inspector");
               reference:  reference,
               phone: numTel
             };
-            console.log('' + panier.id);
             const options = {
               hostname: 'api.notchpay.co',
               port: 443,
@@ -54,9 +72,8 @@ const { waitForDebugger } = require("inspector");
               });
 
               res.on('end', () => {
-                console.log(res.headers)
                 const response = JSON.parse(data);
-                console.log(response);
+                console.log("Response of our request:", response);
                
                 const ref = response.transaction.reference;
                   verifyAndConfirmPayment(ref);
@@ -84,7 +101,7 @@ const { waitForDebugger } = require("inspector");
                 }
               };
               const http = require('http');
-              
+              console.log("Verification du paiement reference par :" + ref);
               const req = http.request(options, function (res) {
                 const chunks = [];
             
@@ -94,7 +111,7 @@ const { waitForDebugger } = require("inspector");
             
                 res.on('end', function () {
                   const body = Buffer.concat(chunks);
-                  console.log(body);
+                  console.log("Reponse de la verification: " , body);
                   
                 });
               });
@@ -111,9 +128,8 @@ const { waitForDebugger } = require("inspector");
             const sendConfirmationRequest = (ref) => {
               // Code pour envoyer la demande de confirmation
               const axios = require('axios');
-
+              console.log("Debut de la confirmation du paiement reference par: " + ref);
               const url = 'https://api.notchpay.co/payments/' +ref;
-              console.log( url);
               
               const headers = {
                 Authorization: KEY,
@@ -129,13 +145,31 @@ const { waitForDebugger } = require("inspector");
               axios
                 .put(url, data, { headers })
                 .then((response) => {
-                  console.log(response.data);
-                  res.status(201).json({ message: "Commande enregistre avec succes" });
-                  commande.reference_payment = ref;
-                  commande.save()
+                  console.log("Reponse de la confirmation:", response.data);
+
+                  
+                  
                   if (response.data.code === 202 && response.data.status === 'Accepted') {
                     // La confirmation est réussie
-                    console.log('Paiement confirmé avec succès !', response);
+                    console.log('Paiement confirmé avec succès !','reponse', response);
+
+                    res.status(201).json({ message: "Commande enregistre avec succes" });
+
+                    console.log("debut de la finalisation:");
+                    axios
+                    .put(url, { headers })
+                    .then((response) => {
+                      if (response.data.code === 200 && response.data.status === 'OK') {
+                        console.log("Reponse de la finalisation:", response.data);
+                        updateCommandeReference(commande[0].id, ref)
+                      }
+                      else console.log(response);
+                    })
+                    .catch((error) => {
+                      console.error("Erreur lors de la finalisation  " , error);
+                    });
+
+
                   } else {
                     // La confirmation n'est pas encore réussie, attendre un certain délai et renvoyer la requête
                     console.log("Paiement de reference: " + ref + "En cours de traitement..");

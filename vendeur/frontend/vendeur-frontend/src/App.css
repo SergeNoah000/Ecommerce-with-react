@@ -36,3 +36,325 @@
     transform: rotate(360deg);
   }
 }
+
+
+
+
+.titre{
+  background-color:  rgb(186, 132, 186);
+  height: 10vh;
+  margin-top: -3vh;
+  
+  
+}
+
+
+/* 
+.interface{
+  /* height: 50%;
+  width: 50%;
+  /* box-shadow: 0px 0px 10px 0px rgba(0, 0, 4); 
+  margin-left: 40vh;
+  margin-top: 10vh; */
+/* } */ *
+.nouveau button{
+  border: 1px solid red ;
+  padding: 10px 20px;
+  border-radius: 10px;
+  color: black;
+  width: 25vh;
+  border: none;
+  cursor: pointer;
+  background-color: #2ecc71;
+  transition: all 0.3s ease;
+  margin-left: 170vh;
+  margin-top: 5vh;
+}
+.interface p,h1{
+margin-left: 5vh;
+font-size: large;
+}
+.interface h1{
+  color: #2ecc71;
+  font-size: xx-large;
+}
+.image{
+ margin-left: 43%;
+ filter: blur(1px);
+
+}
+.formpromo{
+  width: 70vh;
+  margin-left: 50vh;
+  height: 80vh;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 4); 
+}
+.soustitre h2{
+  margin-left: 40%;
+  font-size: 5vh;
+  font-weight: bolder;
+  font-style: oblique;
+  
+  }
+  .soustitre span{
+    color: #2ecc71 ;
+  }
+
+  .header-cells{
+    margin-left: 50vh;
+
+  }
+  mr-2{
+    margin-right: 100vh;
+  }
+  .tableau{
+    margin-left: -30vh;
+  }
+
+table {
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid black;
+  padding: 8px;
+}
+
+.table-container {
+  display: flex;
+  justify-content: center;
+}
+
+.table {
+  width: 50%; 
+  background-color: transparent;
+  margin-left: 50vh;
+}
+
+
+.table th,
+.table td {
+  padding: 10px;
+
+  text-align: center;
+}
+.td{
+  height: 3vh;
+  width: 10vh;
+}
+
+.table th {
+  background-color: #eaeaea;
+}
+
+.btn {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 10px;
+
+  border-radius: 3px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: blue;
+}
+
+.btn-danger {
+  background-color: red;
+} 
+
+ 
+
+
+/* Style pour le formulaire promotion */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  font-weight: bold;
+}
+
+.form-control {
+  display: block;
+  width: 90%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #f8f9fa;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control:focus {
+  color: #495057;
+  background-color: #fff;
+  border-color: #08a51d;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.form-select {
+  display: block;
+  width: 92%;
+  padding: 0.5rem 2rem 0.5rem 1rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #f8f9fa;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  appearance: none;
+}
+
+.form-select:focus {
+  color: #495057;
+  background-color: #fff;
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Style pour le bouton "Enregistrer" */
+.btn-primary {
+  color: #fff;
+  background-color: #08a51d;
+  border-color: #232924;
+  padding: 0.5rem 1rem;
+  width: 93%;
+  margin-top: 2vh;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.25rem;
+  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
+.btn-primary:hover {
+  background-color: #08a51d;
+  border-color: #08a51d;
+}
+
+.btn-primary:focus,
+.btn-primary.focus {
+  background-color: #08a51d;
+  border-color: #08a51d;
+  box-shadow: 0 0 0 0.2rem rgba#08a51d;
+}
+
+.btn-primary:disabled,
+.btn-primary.disabled {
+  background-color:#08a51d;
+  border-color: #08a51d;
+  opacity: 0.65;
+}
+
+/* Animation */
+.animate__animated {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+.animate__fadeIn {
+  animation-name: fadeIn;
+}
+
+.animate__fadeOut {
+  animation-name: fadeOut;
+}
+
+.animate__slideInUp {
+  animation-name: slideInUp;
+}
+
+.animate__slideOutDown {
+  animation-name: slideOutDown;
+}
+
+.animate__zoomIn {
+  animation-name: zoomIn;
+}
+
+.animate__zoomOut {
+  animation-name: zoomOut;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideOutDown {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes zoomOut {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0);
+  }
+}
+
+.frompromo {
+  border: 1px solid #ccc;
+  width: 40%;
+  margin-left: 60vh;
+  border-radius: 5px;
+  box-shadow: 10px 10px 10px 0px rgb(0, 0, 0);
+}
+.form{
+  margin-left: 5vh;
+}
+
+.frompromo h1 {
+  font-size: 3vh;
+  font-weight: bold;
+  text-align: center;
+}
+
+.frompromo h1 span {
+  color: blue;
+  font-size: 5vh;
+}
