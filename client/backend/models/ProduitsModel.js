@@ -47,8 +47,8 @@ const Product = sequelize.define('produit', {
 }                                                             
 );
 
-Product.belongsTo(Vendeur)
-Vendeur.hasMany(Product)
+Product.belongsTo(Vendeur);
+Vendeur.hasMany(Product);
 
 
 
@@ -56,8 +56,14 @@ Product.belongsTo(Categorie);
 Categorie.hasMany(Product);
 
 
-Product.belongsTo(Promotion);
-Promotion.hasOne(Product);
+Product.belongsToMany(Promotion,{ through: 'PromotionsOfProduct' });
+Promotion.belongsToMany(Product, { through: 'ProductsOfPromotion' });
+
+Vendeur.hasMany(Promotion);
+Promotion.belongsTo(Vendeur);
+
+Client.belongsToMany(Promotion, { through: 'PromotionsOfClient' });
+Promotion.belongsToMany(Client, { through: 'ClientsOfPromotion' });
 
 Demand.hasOne(Product);
 Demand.belongsTo(Product);

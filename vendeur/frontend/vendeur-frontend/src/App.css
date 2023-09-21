@@ -38,8 +38,6 @@
 }
 
 
-
-
 .titre{
   background-color:  rgb(186, 132, 186);
   height: 10vh;
@@ -61,8 +59,8 @@
   border: 1px solid red ;
   padding: 10px 20px;
   border-radius: 10px;
-  color: black;
-  width: 25vh;
+  color: hsl(0, 0%, 0%);
+  width: 30vh;
   border: none;
   cursor: pointer;
   background-color: #2ecc71;
@@ -104,21 +102,69 @@ font-size: large;
     margin-left: 50vh;
 
   }
-  mr-2{
+
+  /* mr-2{
     margin-right: 100vh;
+  } */
+
+
+  
+/* Styles pour les écrans de taille supérieure à 768px */
+@media screen and (max-width: 768px) {
+  .titre {
+    height: 5vh;
+    margin-top: -1vh;
   }
-  .tableau{
-    margin-left: -30vh;
+
+  .nouveau button {
+    margin-left: 5vh;
+    margin-top: 2vh;
   }
+
+  .interface {
+    margin-left: 10vh;
+    margin-top: 5vh;
+  }
+
+  .image {
+    margin-left: 35%;
+  }
+
+  .formpromo {
+    width: 90%;
+    margin-left: 5%;
+    height: auto;
+  }
+
+  .soustitre h2 {
+    margin-left: 10%;
+    font-size: 3vh;
+  }
+
+  .header-cells {
+    margin-left: 10vh;
+  }
+
+  /* .mr-2 {
+    margin-right: 5vh;
+  }*/
+}  
+
+/* 
+.table-container {
+  overflow-x: auto;
+  display: flex;
+  justify-content: center;
+  margin-left: -30vh;
+}
+
+
 
 table {
   border-collapse: collapse;
 }
 
-th, td {
-  border: 1px solid black;
-  padding: 8px;
-}
+
 
 .table-container {
   display: flex;
@@ -129,9 +175,18 @@ th, td {
   width: 50%; 
   background-color: transparent;
   margin-left: 50vh;
+  
+} */
+.tableau {
+  width: 100%;
+  /* margin-left: 50vh; */
+  /* overflow-x: auto; */
 }
 
-
+th, td {
+  border: 1px solid black;
+  padding: 8px;
+}
 .table th,
 .table td {
   padding: 10px;
@@ -160,12 +215,144 @@ th, td {
 .btn-primary {
   background-color: blue;
 }
+#modi{
+  width: 15vh;
+  
+}
 
 .btn-danger {
   background-color: red;
 } 
 
- 
+
+/* Styles pour le tableau responsive */
+.tableau {
+  overflow-x: auto;
+}
+
+.table {
+  width: 20%;
+  border-collapse: collapse;
+}
+
+.table thead th,
+.table tbody td {
+  padding: 8px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+/* Règles pour le responsive design */
+@media (max-width: 767px) {
+  .tableau {
+    overflow-x: auto;
+  }
+
+  .table {
+    display: block;
+    width: 100%;
+    white-space: nowrap;
+  }
+
+  .table thead,
+  .table tbody,
+  .table th,
+  .table tr {
+    display: block;
+  }
+
+  .table thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .table tr {
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .table td,
+  .table th {
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 50%;
+    text-align: left;
+    flex-basis: 50%;
+  }
+
+  .table td:before,
+  .table th:before {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+  }
+
+  .table td:nth-of-type(1):before {
+    content: "id Promotion";
+  }
+
+  .table td:nth-of-type(2):before {
+    content: "Code Promotion";
+  }
+
+  .table td:nth-of-type(3):before {
+    content: "Titre Promotion";
+  }
+
+  .table td:nth-of-type(4):before {
+    content: "Description Promotion";
+  }
+
+  .table td:nth-of-type(5):before {
+    content: "Type de Réduction";
+  }
+
+  .table td:nth-of-type(6):before {
+    content: "Valeur de Réduction";
+  }
+
+  .table td:nth-of-type(7):before {
+    content: "Date de début";
+  }
+
+  .table td:nth-of-type(8):before {
+    content: "Date de fin";
+  }
+
+  .table td:nth-of-type(9):before {
+    content: "Montant d'achat minimum";
+  }
+
+  .table td:nth-of-type(10):before {
+    content: "Produits applicables";
+  }
+
+  .table td:nth-of-type(11):before {
+    content: "Clients applicables";
+  }
+
+  .table td:nth-of-type(12):before {
+    content: "Actions";
+  }
+
+  /* Ajouter des règles spécifiques pour les actions */
+  .table td:last-child,
+  .table th:last-child {
+    padding-left: 0;
+    text-align: center;
+    flex-basis: 100%;
+  }
+  }
+
+
+
 
 
 /* Style pour le formulaire promotion */
@@ -357,4 +544,28 @@ th, td {
 .frompromo h1 span {
   color: blue;
   font-size: 5vh;
+}
+
+
+/* Règles pour le responsive design */
+
+@media (max-width: 767px) {
+  .frompromo {
+    width: 100%;
+    margin-left: 0;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 10px;
+  }
+  
+  .frompromo h1 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .form-control,
+  .form-select,
+  .btn-primary {
+    font-size: 14px;
+  }
 }

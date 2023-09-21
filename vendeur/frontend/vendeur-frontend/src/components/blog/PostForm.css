@@ -1,0 +1,71 @@
+.form{
+ text-align: center; 
+ margin: 30px 0 0 300px;
+}
+
+.titles{
+    width: 805px;
+    height: 50px;
+    border-radius: 10px;
+    font-size: 30px;
+    margin-left: 0;
+}
+.contenu{
+    margin-top: 10px;
+    width: 800px;
+    height: 400px;
+    border-radius: 10px;
+    font-size: 20px;
+    margin-bottom: 10px;
+    font-family: sans-serif;
+    border: 2px solid black;
+}
+.boutton{
+    height: 45px;
+    width: 250px;
+    font-size: 25px;
+    margin-top: 10px;
+    border-color: green;
+    border-radius: 30px;
+    background-color: white;
+    
+}
+.boutton:hover{
+    background-color: green;
+    color: wheat;
+}
+.contenu , .title::placeholder{
+    padding-left: 10px;
+}
+ 
+
+.nav-links{
+   line-height: 50px;
+   background-color: green;
+  
+   width: 300px;
+   padding-left: 20px;
+   padding-top: 10px;
+   border-radius: 0 0 30px 0;
+}
+.containe{
+    display: flex;
+}
+.addAticle{
+    border: 1px solid black;
+    padding: 7px 5px;
+    border-radius: 30px;
+}
+.confirm{
+    color: rgb(8, 245, 8);
+   
+    backdrop-filter: blur(10px) ;
+   
+  
+    text-align: center;
+}
+.BOUTTON{
+      color: black;
+    margin-top: 300px;
+
+}

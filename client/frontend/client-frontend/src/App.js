@@ -28,7 +28,7 @@ function App() {
         <Route path='/Categorie_details/:id' element={<Categorie_details />} />
         <Route path='/products/search' element={<Search />} />
         <Route path="/Contact" element={<Contact />} />
-        <Route path="/Blogsingle" element={<Blogsingle />} />
+        <Route path="/Blogsingle/:id" element={<Blogsingle />} />
         <Route path="/Blog" element={<Blog />} />
         <Route path="/About" element={<About />} />
       </Routes>

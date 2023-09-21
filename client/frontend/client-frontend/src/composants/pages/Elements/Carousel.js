@@ -24,8 +24,8 @@ function Carousel()  {
                         <div className="carousel-caption">
                             <h3>
                                 Promotion of <pan> {prom.product.nom_produit} </pan>
-                                <br/>{prom.pourcentage_reduction}% Off</h3>
-                            <a href={"/Home_detail/"+ prom.product.id} className="shop-button btn">
+                                <br/>{prom.valeur_reduction}% Off</h3>
+                            <a href={"/Home_detail/"+ prom.product.id_promotion} className="shop-button btn">
                                 Shop Now
                             </a>
 

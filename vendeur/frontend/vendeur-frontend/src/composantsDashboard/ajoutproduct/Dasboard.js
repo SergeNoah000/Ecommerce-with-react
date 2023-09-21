@@ -38,7 +38,7 @@ function Dashboard (){
                 <li class="menu-title"><span data-key="t-menu">Menu</span></li>
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                        <i class="mdi mdi-speedometer"></i> <span data-key="t-dashboards">Dashboards</span>
+                        <i class="mdi mdi-speedometer"></i> <span data-key="t-dashboards">Produits</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarDashboards">
                         <ul class="nav nav-sm flex-column">
@@ -50,6 +50,47 @@ function Dashboard (){
                                 <Link to='/AjoutProduire'  class="nav-link" data-key="t-crm">Add</Link>
                               
                             </li>
+                            
+                          
+                          
+                        </ul>
+                    </div>
+                </li> 
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                        <i class="mdi mdi-speedometer"></i> <span data-key="t-dashboards">Promotions</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarDashboards">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <Link to='/Promotions_List'  class="nav-link" data-key="t-analytics" > List</Link>
+                                <a href="dashboard-analytics.html" class="nav-link" data-key="t-analytics">  </a>
+                            </li>
+                            <li class="nav-item">
+                                <Link to='/PromotionForm'  class="nav-link" data-key="t-crm">Add</Link>
+                              
+                            </li>
+                            
+                          
+                          
+                        </ul>
+                    </div>
+                </li> 
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                        <i class="mdi mdi-speedometer"></i> <span data-key="t-dashboards">Blogs</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarDashboards">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <Link to='/Listblog'  class="nav-link" data-key="t-analytics" > List</Link>
+                                <a href="dashboard-analytics.html" class="nav-link" data-key="t-analytics">  </a>
+                            </li>
+                            <li class="nav-item">
+                                <Link to='/AddArticle'  class="nav-link" data-key="t-crm">Add</Link>
+                              
+                            </li>
+                            
                           
                           
                         </ul>

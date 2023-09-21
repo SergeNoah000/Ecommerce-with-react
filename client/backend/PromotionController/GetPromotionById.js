@@ -1,35 +1,32 @@
-
-
-
 const Product = require('../models/ProduitsModel');
 const Promotion = require('../models/PromotionModel');
 
 module.exports = (app) => {
   app.get('/promo/', async (req, res) => {
-
-    
     try {
-      const categories = await Promotion.findAll(
-        {
-          order: [['id', 'ASC']]
-        }
-      );
-      const categoriesWithProduct = await Promise.all(
-        categories.map(async (categorie) => {
-          
-          const product = await Product.findOne({
-            where: {
-              promotionId: categorie.id
-            },
-            order: [['id', 'ASC']]
+      const promotions = await Promotion.findAll({
+        order: [['id_promotion', 'ASC']],
+      });
+
+      const promotionsWithProduct = [];
+
+      for (const promotion of promotions) {
+        const products = await promotion.getProduits({
+          order: [['id', 'DESC']],
+          limit: 1,
+        });
+
+        const product = products.length > 0 ? products[0] : null;
+
+        if (product) {
+          promotionsWithProduct.push({
+            ...promotion.toJSON(),
+            product: product.toJSON(),
           });
-          return {
-           ...categorie.toJSON(),
-            product : product
-          };
-        })
-      );
-      res.json(categoriesWithProduct);
+        }
+      }
+
+      res.json(promotionsWithProduct);
     } catch (error) {
       res.status(500).json({ msg: error.message });
     }

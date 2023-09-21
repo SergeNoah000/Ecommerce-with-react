@@ -1,0 +1,49 @@
+.BOUTTON{
+    color: black;
+    margin-left: 15px;
+    font-weight: 600;
+    margin-top: 100px;
+   border-radius: 30px;
+   border: 1px solid black;
+   text-decoration: none;
+   padding:5px ;
+
+}
+.vendeur-card{
+   
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 18%;
+}
+.project-card{
+    margin-left: 50px;
+}
+.BOUTTON:hover{
+    color: bisque;
+    background-color: black;
+}
+.titles{
+    text-align: center;
+  
+    
+}
+.all{
+    display: flex;
+  
+}
+
+
+.img-affiche{
+    height: 50px;
+    width: 50px;
+}
+
+
+.img-delete{
+    width: 20px;
+    height: 20px;
+
+}
+.img-delete:hover{
+    color: red;
+}

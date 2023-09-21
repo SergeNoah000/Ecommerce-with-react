@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import  { React, useState, useEffect } from 'react';
 import axios from 'axios';
-import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import { Form, FormGroup, Label, Input, Button, FormText } from 'reactstrap';
+import jwt_decode from 'jwt-decode';
+import App from '../App.css';
 import { useNavigate } from 'react-router-dom';
 import PrincipalInterface from './PrincipalInterface';
 
@@ -13,12 +15,20 @@ function PromotionForm() {
   const [dateDebut, setDateDebut] = useState('');
   const [dateFin, setDateFin] = useState('');
   const [montantAchatMin, setMontantAchatMin] = useState('');
-  const [produitsApplicables, setProduitsApplicables] = useState('');
-  const [clientsApplicables, setClientsApplicables] = useState('');
+  const [produitsApplicables, setProduitsApplicables] = useState([]);
+  const [clientsApplicables, setClientsApplicables] = useState([]);
   const navigate = useNavigate();
   const [data, setData] = useState([]);
+  const [produitsCochees, setProduitsCochees] = useState([]);
+const [clientsCochees, setClientsCochees] = useState([]);
+  const [donnes, setDonnes] = useState([]);
   const onPromotionCreated = (promotion) => {
   };
+
+
+const token = localStorage.getItem('token'); // Récupérer le token du localStorage
+const decodedToken = jwt_decode(token); // Décoder le token pour obtenir les informations qu'il contient
+const vendeurId = decodedToken.vendeurId; 
 
   const values = {
     code_promotion: codePromotion,
@@ -29,28 +39,21 @@ function PromotionForm() {
     date_debut: dateDebut,
     date_fin: dateFin,
     montant_achat_min: montantAchatMin,
-    produits_applicables: produitsApplicables,
-    client_applicables: clientsApplicables
+    produits_applicables: produitsCochees,
+    client_applicables: clientsCochees,
+    vendeurId:vendeurId
   };
 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     // Effectuer une action avec les valeurs du formulaire, par exemple, envoyer les données à un serveur
-    // try {
-      console.log("Promotion: " + values)
-      const response = await axios.post('http://localhost:7200/promotion',values)
+     
+      console.log("Promotion: " + JSON.stringify(values))
+      const response = await axios.post('http://localhost:5000/promotion/create',values)
       .then(res=> {
         console.log(res)
-        navigate('/PrincipalInterface')
-      })
-    .catch(err=>console.log(err))
-
-    
-      // console.log(response.data); // Afficher la réponse du serveur
-
-      // Réinitialiser les champs du formulaire
-      setCodePromotion('');
+        setCodePromotion('');
       setTitrePromotion('');
       setDescriptionPromotion('');
       setTypeReduction('');
@@ -58,10 +61,67 @@ function PromotionForm() {
       setDateDebut('');
       setDateFin('');
       setMontantAchatMin('');
-      setProduitsApplicables('');
-      setClientsApplicables('');
+      setProduitsApplicables([]);
+      setClientsApplicables([]);
+        navigate('/Promotions_List')
+      })
+    .catch(err=>console.log(err))
+
+    
+      // console.log(response.data); // Afficher la réponse du serveur
+
+      // Réinitialiser les champs du formulaire
+      
     // }
   };
+
+  const handleProduitsApplicablesChange = (e) => {
+    const produitId = e.target.value;
+    const index = produitsCochees.indexOf(produitId);
+  
+    if (index === -1) {
+      setProduitsCochees([...produitsCochees, produitId]);
+    } else {
+      const updatedProduitsCochees = [...produitsCochees];
+      updatedProduitsCochees.splice(index, 1);
+      setProduitsCochees(updatedProduitsCochees);
+    }
+  };
+  
+  const handleClientsApplicablesChange = (e) => {
+    const produitId = e.target.value;
+    const index = clientsCochees.indexOf(produitId);
+  
+    if (index === -1) {
+      setClientsCochees([...produitsCochees, produitId]);
+    } else {
+      const updatedProduitsCochees = [...produitsCochees];
+      updatedProduitsCochees.splice(index, 1);
+      setClientsCochees(updatedProduitsCochees);
+    }
+  };
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:7200/products');
+        console.log(response);
+        setData(response.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+
+       try {
+        const response = await axios.get('http://localhost:7200/clients');
+        console.log(response);
+        setDonnes(response.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
 
 
     
@@ -163,28 +223,46 @@ function PromotionForm() {
         className="form-control"
       />
     </FormGroup>
+    
     <FormGroup>
-      <Label for="produitsApplicables" className="fw-bold">Produits applicables</Label>
-      <Input
-        type="text"
-        id="produitsApplicables"
-        value={produitsApplicables}
-        onChange={(e) => setProduitsApplicables(e.target.value)}
-        required
-        className="form-control"
-      />
-    </FormGroup>
-    <FormGroup>
-      <Label for="clientsApplicables" className="fw-bold">Clients applicables</Label>
-      <Input
-        type="text"
-        id="clientsApplicables"
-        value={clientsApplicables}
-        onChange={(e) => setClientsApplicables(e.target.value)}
-        required
-        className="form-control"
-      />
-    </FormGroup>
+        <Label for="produitsApplicables" className="fw-bold">Produits applicables</Label>
+        {data.map((produit) => (
+          <FormGroup check key={produit.id}>
+            <Label check for={`produit-${produit.id}`}>
+              <Input
+                type="checkbox"
+                id={`produit-${produit.id}`}
+                value={produit.id}
+                onChange={handleProduitsApplicablesChange}
+            
+              />
+              {' '}
+              {produit.nom_produit}
+            </Label>
+          </FormGroup>
+        ))}
+        <FormText color="muted">Sélectionnez les produits applicables.</FormText>
+      </FormGroup>
+
+      <FormGroup>
+        <Label for="clientsApplicables" className="fw-bold">Clients applicables</Label>
+        {donnes.map((client) => (
+          <FormGroup check key={client.id}>
+            <Label check for={`client-${client.id}`}>
+              <Input
+                type="checkbox"
+                id={`client-${client.id}`}
+                value={client.id}
+                onChange={handleClientsApplicablesChange}
+              />
+              {' '}
+              {client.nom_complet}
+            </Label>
+          </FormGroup>
+          ))}
+          <FormText color="muted">Sélectionnez les clients applicables.</FormText>
+        </FormGroup>
+    
       <Button color="primary" type="submit">Enregistrer</Button>
     </Form>
     </div>

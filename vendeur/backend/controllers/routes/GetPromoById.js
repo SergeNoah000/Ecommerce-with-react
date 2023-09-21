@@ -9,7 +9,7 @@
     const { id } = req.params;
 
     // Récupérer les données du promotion spécifique
-    const getPromotionQuery = 'SELECT * FROM promotion WHERE id_promotion = ?';
+    const getPromotionQuery = 'SELECT * FROM Promotion WHERE id_promotion = ?';
     connection.query(getPromotionQuery, [id], (error, results) => {
       if (error) {
         console.error(error);

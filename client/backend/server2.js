@@ -14,6 +14,7 @@ app.use(CategoriesRoute);
 require('../backend/clientcontroller/sign-in')(app)
 require('../backend/clientcontroller/ClientCreate')(app)
 require('../backend/clientcontroller/UserCartCreate')(app)
+require('../backend/clientcontroller/GetAllClients')(app)
 require('../backend/produitcontroller/GetProduct')(app)
 require('../backend/categoriecontroller/GetCategories')(app)
 require('../backend/produitcontroller/GetProductById') (app)

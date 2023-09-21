@@ -9,21 +9,20 @@ import DetailsProduct from './components/detailleproduct/DetailsProduct';
 import PrincipalInterface from './mesformulaire/PrincipalInterface';
 import PromotionForm from './mesformulaire/PromotionForm';
 
-
+import AddArticle from './components/blog/AddArticle';
+import Listblog from './components/blog/Listblog';
 function App() {
   
   return <div id="layout-wrapper">
     <Router>
         <Routes>
-        {/* <Route path="/dashboard" element={<Dashboard />} />
-         <Route path="/MenuPrincipal" element={<MenuPrincipal/>}  /> */}
          
          <Route path="/AjoutProduire" element={<AjoutProduire/>} />
           <Route path="/ListProduct" element={<ListProduct/>}  />
-         {/* <Route path="/DetailsProduct" element={<DetailsProduct />}/>   */}
-         {/* <Route path="/" element={<AffichageList/>}/> */}
-      //  <Route path="/" element={<Login />} />
-       <Route exact path="/Promotions_List" element={<PrincipalInterface />} />
+          <Route path="/" element={<Login />} />
+          <Route exact path="/Promotions_List" element={<PrincipalInterface />} />
+          <Route exact path="/AddArticle" element={<AddArticle />} />
+          <Route exact path="/Listblog" element={<Listblog />} />
           <Route exact path="/PromotionForm" element={<PromotionForm />} />
         </Routes>
       </Router>
