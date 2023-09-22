@@ -21,7 +21,7 @@ const Vendeur = require('./Vendeur');
         allowNull: false
       },
       contenu: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false
       },
       picture: {
